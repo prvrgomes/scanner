@@ -282,20 +282,20 @@ commit;
 CREATE TABLE  scan_oper (       
   id_oper NUMBER,                              
   operacao varchar2(25) not null,
-  mostrar number default  1 not null              
+  ativo number default  1 not null              
 );                                            
 
 COMMENT ON TABLE  scan_oper          IS 'Tabela informa os nomes das operações';
 COMMENT ON COLUMN scan_oper.id_oper  IS 'PK id da operação';
 COMMENT ON COLUMN scan_oper.operacao IS 'nome da operação';
-COMMENT ON COLUMN scan_oper.mostrar  IS 'Quando é uma operação ativa, 1 para mostra-la';
+COMMENT ON COLUMN scan_oper.ativo  IS 'Quando é uma operação ativa, 1 para mostra-la';
 
 
 ALTER TABLE scan_oper
   ADD CONSTRAINT PK_scan_oper PRIMARY KEY (id_oper);
   
   
--- ALTER TABLE scan_oper ADD CONSTRAINT CK_scan_oper_01 scan_oper.mostrar (ONOFF in ( 1, 0 ));
+-- ALTER TABLE scan_oper ADD CONSTRAINT CK_scan_oper_01 scan_oper.ativo (ONOFF in ( 1, 0 ));
 
 
 GRANT INSERT, UPDATE, DELETE ON scan_oper TO RL_USUARIO_LETUPDATE;
@@ -304,10 +304,10 @@ GRANT SELECT ON scan_oper TO RL_USUARIO_READONLY;
 CREATE OR REPLACE PUBLIC SYNONYM scan_oper FOR CM.scan_oper;
 
 
-insert into  scan_oper (id_oper, operacao, mostrar)   
-select id, nome, mostrar from 
+insert into  scan_oper (id_oper, operacao, ativo)   
+select id, nome, ativo from 
 (
-SELECT 1 id, 'Proposta' nome, 1 mostrar FROM DUAL UNION 
+SELECT 1 id, 'Proposta' nome, 1 ativo FROM DUAL UNION 
 SELECT 2, 'Benef - Aviso de Sinistro', 1  FROM DUAL UNION 
 SELECT 3, 'BMC Militares - Compra', 0  FROM DUAL UNION 
 SELECT 4, 'BMC Militares - NV/PAR', 0  FROM DUAL UNION 
